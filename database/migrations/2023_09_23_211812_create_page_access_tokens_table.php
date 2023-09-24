@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger("user_id");
             $table->string("page_name");
+            $table->bigInteger("page_id");
             $table->string("page_access_token");
             $table->timestamps();
         });

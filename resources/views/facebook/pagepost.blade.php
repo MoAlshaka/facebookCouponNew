@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Post Coupon</title>
+    <title>Page Post Coupon</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,7 +11,7 @@
         }
 
         .container {
-            max-width: 600px;
+            max-width: 400px;
             margin: 0 auto;
             padding: 20px;
             background-color: #fff;
@@ -33,8 +33,8 @@
             margin-bottom: 5px;
         }
 
-        textarea,
-        input[type="text"] {
+        input[type="text"],
+        textarea {
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
@@ -55,15 +55,13 @@
             background-color: #0056b3;
         }
     </style>
+
 </head>
 <body>
     <div class="container">
-        <h1>Post Coupon</h1>
-        <form action="{{ route('post_coupon') }}" method="post" enctype="multipart/form-data">
+        <h1>Page Post Coupon</h1>
+        <form action="{{ route('page_post_coupon_it_self') }}" method="post">
             @csrf
-            <label for="id">Group ID:</label>
-            <textarea name="id" id="id" cols="30" rows="10"></textarea>
-
             <label for="photo">URL Photo:</label>
             <input type="text" name="photo" id="photo">
 
@@ -75,4 +73,3 @@
     </div>
 </body>
 </html>
-

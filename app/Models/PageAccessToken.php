@@ -9,6 +9,6 @@ class PageAccessToken extends Model
 {
     use HasFactory;
     protected $fillable=[
-        "user_id","page_name","page_access_token",
+        "user_id","page_id","page_name","page_access_token",
     ];
 }

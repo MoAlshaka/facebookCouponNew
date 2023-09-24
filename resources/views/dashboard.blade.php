@@ -14,7 +14,9 @@
                 <div class="p-6 text-gray-900">
                     <a href="{{route('page_access_token')}}">Get Page Access</a>
                     <br>
-                    <a href="{{route('page_post')}}">Post Coupon</a>
+                    <a href="{{route('page_post')}}">Post Coupon Group</a>
+                    <br>
+                    <a href="{{route('page_post_it_self')}}">page post coupon</a>
                 </div>
             </div>
         </div>

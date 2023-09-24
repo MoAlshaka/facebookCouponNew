@@ -20,17 +20,19 @@ class PageAccessController extends Controller
         $url = "https://graph.facebook.com/$id/accounts?fields=name,access_token&access_token=$access_token";
 
         $response = Http::get($url);
-//        return $response;
+      //  return $response;
         if ($response->successful()) {
             $data = $response->json()['data'];
 
             foreach ($data as $page) {
+                $page_id = $page['id'];
                 $name = $page['name'];
                 $page_access_token = $page['access_token'];
 
                 // Create a new PageAccess record
                 PageAccessToken::create([
                     "user_id"=>$id,
+                    "page_id"=>$page_id,
                     "page_name" => $name,
                     "page_access_token" => $page_access_token,
                 ]);

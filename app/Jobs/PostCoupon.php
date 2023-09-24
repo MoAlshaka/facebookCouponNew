@@ -38,7 +38,7 @@ class PostCoupon implements ShouldQueue
         $count = count($this->groupIds);
         $countAccessTokens = count($this->accessTokens);
         $j = 0;
-
+        $responses=[];
         for ($i = 0; $i < $count; $i++) {
             if ($j >= $countAccessTokens) {
                 $j = 0;
@@ -46,16 +46,19 @@ class PostCoupon implements ShouldQueue
 
             $accessToken = $this->accessTokens[$j];
             $groupId = $this->groupIds[$i];
-            $response=[];
+
             $response = Http::post("https://graph.facebook.com/v18.0/$groupId/photos", [
                 'message' => $this->message,
                 'url' => $this->image,
                 'access_token' => $accessToken,
             ]);
+            if (isset($response['post_id'])) {
+                $responses[] = $response['post_id'];
+            }
 
             $j++;
         }
-        return $response;
+        return $responses;
         // $message="تم نشر البوستات بنجاح";
         // event(new PostCouponJobFinished($message));
     }

@@ -31,7 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::group(['namespace'=>'User','prefix'=>'user','middleware'=>'auth:web'],function(){
+Route::group(['namespace'=>'User','prefix'=>'user','middleware'=> ['auth:web', 'max_execution_time']],function(){
 
     Route::get('page-access',[PageAccessController::class,'page_access_token'])->name('page_access_token');
     Route::post('get_page-access',[PageAccessController::class,'get_page_access_token'])->name('get_page_access_token');

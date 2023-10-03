@@ -17,6 +17,9 @@
                     <a href="{{route('page_post')}}">Post Coupon Group</a>
                     <br>
                     <a href="{{route('page_post_it_self')}}">page post coupon</a>
+                    <br>
+                    <a href="{{route('shared_post')}}">shared post</a>
+                    <br>
                 </div>
             </div>
         </div>

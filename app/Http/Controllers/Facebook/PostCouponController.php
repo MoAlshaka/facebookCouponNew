@@ -16,6 +16,11 @@ class PostCouponController extends Controller
 
     public function post(Request $request)
     {
+        $request->validate([
+            "id"=>"required",
+            "message"=>"required",
+            "photo"=>"required|url",
+        ]);
         $accessTokens = PageAccessToken::pluck('page_access_token')->all();
         shuffle($accessTokens);
         $count_accessTokens = count($accessTokens);

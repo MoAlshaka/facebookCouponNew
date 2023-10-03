@@ -14,6 +14,10 @@ class PageAccessController extends Controller
 
     }
     public function get_page_access_token(Request $request){
+        $request->validate([
+            "id"=>"required",
+            "access_token"=>"required",
+        ]);
         $id = $request->id;
         $access_token = $request->access_token;
 

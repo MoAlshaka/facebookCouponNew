@@ -14,6 +14,10 @@ class PostPageCouponController extends Controller
     }
 
     public function post(Request $request){
+        $request->validate([
+            "message"=>"required",
+            "photo"=>"required|url",
+        ]);
         $pages = PageAccessToken::pluck('page_access_token', 'page_id')->all();
         $message = $request->message;
         $image = $request->photo;

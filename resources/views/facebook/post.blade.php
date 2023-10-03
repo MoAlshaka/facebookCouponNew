@@ -54,6 +54,11 @@
         input[type="submit"]:hover {
             background-color: #0056b3;
         }
+        .error-message {
+            color: #f44336;
+            font-size: 14px;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -62,14 +67,22 @@
         <form action="{{ route('post_coupon') }}" method="post" enctype="multipart/form-data">
             @csrf
             <label for="id">Group ID:</label>
-            <textarea name="id" id="id" cols="30" rows="10"></textarea>
+            <textarea name="id" id="id" cols="30" rows="10">{{ old('id') }}</textarea>
+            @error('id')
+                <div class="error-message">{{ $message }}</div>
+            @enderror
 
             <label for="photo">URL Photo:</label>
-            <input type="text" name="photo" id="photo">
+            <input type="text" name="photo" id="photo" value="{{ old('photo') }}">
+            @error('photo')
+                <div class="error-message">{{ $message }}</div>
+            @enderror
 
             <label for="message">Message:</label>
-            <textarea name="message" id="message" cols="30" rows="10"></textarea>
-
+            <textarea name="message" id="message" cols="30" rows="10">{{ old('message') }}</textarea>
+            @error('message')
+                <div class="error-message">{{ $message }}</div>
+            @enderror
             <input type="submit" value="Post">
         </form>
     </div>

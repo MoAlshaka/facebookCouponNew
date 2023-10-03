@@ -53,6 +53,11 @@
         input[type="submit"]:hover {
             background-color: #0056b3;
         }
+        .error-message {
+            color: #f44336;
+            font-size: 14px;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -61,10 +66,16 @@
         <form action="{{ route('get_page_access_token') }}" method="post">
             @csrf
             <label for="id">ID:</label>
-            <input type="text" name="id" id="id" placeholder="Enter ID">
+            <input type="text" name="id" id="id" placeholder="Enter ID" value="{{ old('id') }}">
+            @error('id')
+                <div class="error-message">{{ $message }}</div>
+            @enderror
 
             <label for="access_token">Access Token:</label>
-            <input type="text" name="access_token" id="access_token" placeholder="Enter Access Token">
+            <input type="text" name="access_token" id="access_token" placeholder="Enter Access Token" value="{{ old('access_token') }}">
+            @error('access_token')
+                <div class="error-message">{{ $message }}</div>
+            @enderror
 
             <input type="submit" value="Get Access">
         </form>

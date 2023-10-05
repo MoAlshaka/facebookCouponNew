@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Pupeteer\ScrapController;
 use App\Http\Controllers\Facebook\PageAccessController;
 use App\Http\Controllers\Facebook\PostCouponController;
 use App\Http\Controllers\Facebook\SharedPostController;
@@ -47,8 +48,20 @@ Route::group(['namespace'=>'User','prefix'=>'user','middleware'=> ['auth:web', '
     ///
     Route::get('share-post',[SharedPostController::class,'index'])->name('shared_post');
     Route::post('/share-post', [SharedPostController::class,'sharePost'])->name('share_post');
-   // Route::match(['get', 'post'], '/share-post/{postId}', [SharedPostController::class, 'sharePost'])->name('share_post');
+    ///
 
+    Route::get('scrap',[ScrapController::class,'scrap'])->name('scrap');
+    Route::post('scrap',[ScrapController::class,'scrap_id'])->name('scrapid');
+    //////
+    Route::get('cookies',[ScrapController::class,'cookies'])->name('cookies');
+    Route::post('cookies',[ScrapController::class,'add_cookies'])->name('add_cookies');
+    //////
+    Route::get('poster',[ScrapController::class,'poster'])->name('poster');
+    Route::post('poster',[ScrapController::class,'group_poster'])->name('group_poster');
+    //////
+    Route::get('reels',[ScrapController::class,'reels'])->name('reels');
+    Route::post('reels',[ScrapController::class,'uplode_reels'])->name('uplode_reels');
+    //////
 
 
 });

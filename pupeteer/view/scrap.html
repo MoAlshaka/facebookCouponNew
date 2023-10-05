@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Send POST Request</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      div {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin: 20px;
+        border-radius: 5px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      input[type="text"],
+      input[type="number"] {
+        width: 98%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+      }
+
+      button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      #response {
+        margin-top: 20px;
+        height: 200px;
+        overflow-y: scroll;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Get Groups IDs</h1>
+    <div>
+      <label for="searchGroup">Message:</label>
+      <input
+        type="text"
+        id="searchGroup"
+        placeholder="Put Groups Name"
+        value="cars"
+      />
+      <label for="groupNumber">Number of Pages to Scrap:</label>
+      <input
+        type="number"
+        id="groupNumber"
+        placeholder="Put Groups Name"
+        value="3"
+      />
+      <label for="delay">Delay Between Actions (in sec):</label>
+      <input type="number" id="delay" placeholder="Enter delay" value="2" />
+      <button id="sendButton">Send</button>
+      <button id="downloadButton">Download Excel</button>
+    </div>
+    <div id="response"></div>
+
+    <!-- use version 0.20.0 -->
+    <script
+      lang="javascript"
+      src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"
+    ></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const sendButton = document.getElementById("sendButton");
+        const responseDiv = document.getElementById("response");
+        const downloadButton = document.getElementById("downloadButton");
+
+        sendButton.addEventListener("click", async function () {
+          const searchGroup = document.getElementById("searchGroup").value;
+          const groupNumber = parseInt(
+            document.getElementById("groupNumber").value,
+            10
+          );
+          const delay = parseInt(document.getElementById("delay").value, 10);
+          const url = "http://localhost:3000/api/v1/groupscrap"; // Replace with your actual endpoint URL
+
+          try {
+            const response = await fetch(url, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                searchGroup: searchGroup,
+                groupNumber: groupNumber,
+                delay: delay,
+              }),
+            });
+
+            if (response.ok) {
+              const responseData = await response.json();
+              renderTable(responseData.message);
+              downloadButton.disabled = false;
+            } else {
+              responseDiv.textContent = "Error sending POST request.";
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            responseDiv.textContent = "Error sending POST request.";
+          }
+        });
+
+        downloadButton.addEventListener("click", function () {
+          const table = document.querySelector("table");
+          if (table) {
+            const ws = XLSX.utils.table_to_sheet(table);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+            // Save the Excel file
+            XLSX.writeFile(wb, "table.xlsx");
+          }
+        });
+
+        function renderTable(data) {
+          const table = document.createElement("table");
+          const thead = document.createElement("thead");
+          const tbody = document.createElement("tbody");
+          const headerRow = document.createElement("tr");
+
+          // Create table headers
+          const headers = ["Name", "ID"];
+          headers.forEach((headerText) => {
+            const th = document.createElement("th");
+            th.textContent = headerText;
+            headerRow.appendChild(th);
+          });
+
+          thead.appendChild(headerRow);
+          table.appendChild(thead);
+
+          // Populate table rows with data
+          data.forEach((item) => {
+            const row = document.createElement("tr");
+            const nameCell = document.createElement("td");
+            const idCell = document.createElement("td");
+
+            nameCell.textContent = item.groupName;
+            idCell.textContent = item.groupId;
+
+            row.appendChild(nameCell);
+            row.appendChild(idCell);
+            tbody.appendChild(row);
+          });
+
+          table.appendChild(tbody);
+          responseDiv.innerHTML = "";
+          responseDiv.appendChild(table);
+        }
+      });
+    </script>
+  </body>
+</html>

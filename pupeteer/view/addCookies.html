@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    div {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 20px;
+      margin: 20px;
+      border-radius: 5px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      width: 98%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+
+    button {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #response {
+      margin-top: 20px;
+    }
+  </style>
+  <body>
+    <h1>Add Cookies</h1>
+    <div>
+      <label for="emails">Add your Emails:</label>
+      <textarea type="text" id="emails" cols="80" rows="30"></textarea>
+      <label for="delay">Delay Between Actions(in sec):</label>
+      <input type="number" id="delay" placeholder="Enter delay" value="2" />
+      <button id="sendButton">Send</button>
+    </div>
+    <div id="response"></div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const sendButton = document.getElementById("sendButton");
+        const responseDiv = document.getElementById("response");
+
+        sendButton.addEventListener("click", async function () {
+          const emails = document.getElementById("emails").value;
+          const delay = parseInt(document.getElementById("delay").value, 10);
+          const url = "http://localhost:3000/api/v1/addcookies"; // Replace with your actual endpoint URL
+
+          // handle emails filteration
+          const mailsArray = emails.split("\n");
+          const mails = mailsArray.map((e) => {
+            const mail = e.split(":");
+            return {
+              email: mail[0],
+              pass: mail[1],
+            };
+          });
+
+          try {
+            const response = await fetch(url, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                emails: mails,
+                delay: delay,
+              }),
+            });
+
+            if (response.ok) {
+              const responseData = await response.json();
+              responseDiv.textContent = `Response: ${JSON.stringify(
+                responseData
+              )}`;
+            } else {
+              responseDiv.textContent = "Error sending POST request.";
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            responseDiv.textContent = "Error sending POST request.";
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

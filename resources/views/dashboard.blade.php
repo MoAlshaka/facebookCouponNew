@@ -12,13 +12,21 @@
                     {{ __("You're logged in!") }}
                 </div>
                 <div class="p-6 text-gray-900">
-                    <a href="{{route('page_access_token')}}">Get Page Access</a>
+                    <a href="{{ route('page_access_token') }}" class="text-blue-500 hover:underline">Get Page Access</a>
                     <br>
-                    <a href="{{route('page_post')}}">Post Coupon Group</a>
+                    <a href="{{ route('page_post') }}" class="text-blue-500 hover:underline">Post Coupon Group</a>
                     <br>
-                    <a href="{{route('page_post_it_self')}}">page post coupon</a>
+                    <a href="{{ route('page_post_it_self') }}" class="text-blue-500 hover:underline">Page Post Coupon</a>
                     <br>
-                    <a href="{{route('shared_post')}}">shared post</a>
+                    <a href="{{ route('shared_post') }}" class="text-blue-500 hover:underline">Shared Post</a>
+                    <br>
+                    <a href="{{ route('scrap') }}" class="text-blue-500 hover:underline">Scrap</a>
+                    <br>
+                    <a href="{{ route('cookies') }}" class="text-blue-500 hover:underline">Add Cookies</a>
+                    <br>
+                    <a href="{{ route('poster') }}" class="text-blue-500 hover:underline">Poster</a>
+                    <br>
+                    <a href="{{ route('reels') }}" class="text-blue-500 hover:underline">Reels</a>
                     <br>
                 </div>
             </div>

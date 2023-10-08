@@ -17,7 +17,6 @@ class CookiesController extends Controller
 
         foreach ($cookies as $cookie) {
             $formattedCookie = [
-                'collectionId' => 'qbbfpzddtydrp5p', // You can set this value as needed
                 'collectionName' => 'cookies', // You can set this value as needed
                 'created' => $cookie->created_at->toIso8601String(),
                 'id' => $cookie->id,

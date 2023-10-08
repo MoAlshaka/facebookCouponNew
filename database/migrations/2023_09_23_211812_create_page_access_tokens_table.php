@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('page_access_tokens', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger("user_id");
+            $table->bigInteger("account_id");
             $table->string("page_name");
             $table->bigInteger("page_id");
             $table->string("page_access_token");
+            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }

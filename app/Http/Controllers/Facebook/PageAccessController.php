@@ -20,6 +20,7 @@ class PageAccessController extends Controller
         ]);
         $id = $request->id;
         $access_token = $request->access_token;
+        $user_id=auth()->user()->id;
 
         $url = "https://graph.facebook.com/$id/accounts?fields=name,access_token&access_token=$access_token";
 
@@ -35,17 +36,15 @@ class PageAccessController extends Controller
 
                 // Create a new PageAccess record
                 PageAccessToken::create([
-                    "user_id"=>$id,
+                    "account_id"=>$id,
                     "page_id"=>$page_id,
                     "page_name" => $name,
                     "page_access_token" => $page_access_token,
+                    "user_id"=>$user_id,
                 ]);
             }
-
-            // Optionally, you can return a success message or response here
             return response()->json(['message' => 'PageAccess records created successfully']);
         } else {
-            // Handle the case where the API request was not successful
             return response()->json(['error' => 'API request failed'], $response->status());
         }
     }

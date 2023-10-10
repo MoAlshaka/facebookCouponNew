@@ -16,11 +16,13 @@ class PostPageCouponController extends Controller
     public function post(Request $request){
         $request->validate([
             "message"=>"required",
+            "delay"=>"required",
             "photo"=>"required|url",
         ]);
         $pages = PageAccessToken::pluck('page_access_token', 'page_id')->all();
         $message = $request->message;
         $image = $request->photo;
+        $delay = $request->delay;
         $responses = [];
         $batchSize = 10;
         foreach (array_chunk($pages, $batchSize, true) as $batch) {
@@ -33,6 +35,7 @@ class PostPageCouponController extends Controller
                 if (isset($response['post_id'])) {
                     $responses[] = $response['post_id'];
                 }
+                sleep($delay);
             }
         }
 

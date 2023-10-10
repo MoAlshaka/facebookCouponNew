@@ -19,11 +19,13 @@ class SharedPostController extends Controller
             "group_id"=>"required",
             "message"=>"required",
             "post_id"=>"required",
+            "delay"=>"required",
         ]);
         $group_ids = explode("\r\n", $request->group_id);
         $count = count($group_ids);
         $postId = $request->post_id;
         $message = $request->message;
+        $delay = $request->delay;
 
         $accessTokens = PageAccessToken::pluck('page_access_token')->all();
         shuffle($accessTokens);
@@ -46,6 +48,7 @@ class SharedPostController extends Controller
                 $responses[] = $response['id'];
             }
             $j++;
+            sleep($delay);
         }
         return $responses;
     }

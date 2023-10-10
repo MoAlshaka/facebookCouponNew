@@ -19,6 +19,7 @@ class PostCouponController extends Controller
         $request->validate([
             "id"=>"required",
             "message"=>"required",
+            "delay"=>"required",
             "photo"=>"required|url",
         ]);
         $accessTokens = PageAccessToken::pluck('page_access_token')->all();
@@ -27,6 +28,7 @@ class PostCouponController extends Controller
         $message = $request->message;
         $group_ids = explode("\r\n", $request->id);
         $image = $request->photo;
+        $delay = $request->delay;
         $count = count($group_ids);
 
         // Initialize $j outside the loop
@@ -48,6 +50,7 @@ class PostCouponController extends Controller
                 $responses[] = $response['post_id'];
             }
             $j++;
+            sleep($delay);
         }
         return $responses;
         //return response()->json(['message' => 'Post created successfully']);

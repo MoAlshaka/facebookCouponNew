@@ -83,6 +83,13 @@
             @error('message')
                 <div class="error-message">{{ $message }}</div>
             @enderror
+
+            <label for="delay">Delay</label>
+            <input type="text" name="delay" id="delay" placeholder="Enter delay" value="{{ old('delay') }}">
+            @error('delay')
+                <div class="error-message">{{ $message }}</div>
+            @enderror
+
             <input type="submit" value="Post">
         </form>
     </div>

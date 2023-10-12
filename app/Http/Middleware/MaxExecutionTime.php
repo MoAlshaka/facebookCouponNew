@@ -15,7 +15,7 @@ class MaxExecutionTime
      */
     public function handle(Request $request, Closure $next): Response
     {
-        set_time_limit(3600);
+        set_time_limit(86400);
         return $next($request);
     }
 }

@@ -14,6 +14,10 @@ class SharedPostController extends Controller
         return view('facebook.sharepost');
     }
 
+    public function share_post_on_page(){
+        return view('facebook.sharepostonpage');
+    }
+
     public function sharePost(Request $request){
         $request->validate([
             "group_id"=>"required",
@@ -31,26 +35,70 @@ class SharedPostController extends Controller
         shuffle($accessTokens);
         $count_accessTokens = count($accessTokens);
         $j = 0;
+        $error=[];
         $responses=[];
         for ($i = 0; $i < $count; $i++) {
-            if ($j >= $count_accessTokens) {
-                $j = 0;
+            try{
+                if ($j >= $count_accessTokens) {
+                    $j = 0;
+                }
+                $access_token = $accessTokens[$j];
+                $group_id = $group_ids[$i];
+                $data = [
+                    'link' => "https://www.facebook.com/$postId",
+                    'message' => $message,
+                    'access_token' => $access_token,
+                ];
+                $response = Http::post("https://graph.facebook.com/v18.0/$group_id/feed", $data);
+                if (isset($response['id'])) {
+                    $responses[] = $response['id'];
+                }
+                $j++;
+                sleep($delay);
+            }catch (\Exception $e) {
+                $error[]=$group_id;
             }
-            $access_token = $accessTokens[$j];
-            $group_id = $group_ids[$i];
-            $data = [
-                'link' => "https://www.facebook.com/$postId",
-                'message' => $message,
-                'access_token' => $access_token,
-            ];
-            $response = Http::post("https://graph.facebook.com/v18.0/$group_id/feed", $data);
-            if (isset($response['id'])) {
-                $responses[] = $response['id'];
-            }
-            $j++;
-            sleep($delay);
         }
         return $responses;
     }
+
+    public function sharePostPage(Request $request) {
+        $request->validate([
+            "message" => "required",
+            "post_id" => "required",
+            "delay" => "required",
+        ]);
+
+        $postId = $request->post_id;
+        $message = $request->message;
+        $delay = $request->delay;
+
+        $pages = PageAccessToken::pluck('page_access_token', 'page_id')->all();
+        $responses = [];
+        $error=[];
+        foreach ($pages as $pageId => $pageAccessToken) {
+            try{
+                $data = [
+                    'link' => "https://www.facebook.com/$postId",
+                    'message' => $message,
+                    'access_token' => $pageAccessToken,
+                ];
+
+                $response = Http::post("https://graph.facebook.com/v18.0/$pageId/feed", $data);
+
+                if (isset($response['id'])) {
+                    $responses[] = $response['id'];
+                }
+
+                sleep($delay);
+            }catch (\Exception $e) {
+                $error[]=$pageId;
+            }
+        }
+        return $responses;
+
+    }
+
+
 
 }

@@ -30,18 +30,22 @@ class PageAccessController extends Controller
             $data = $response->json()['data'];
 
             foreach ($data as $page) {
-                $page_id = $page['id'];
-                $name = $page['name'];
-                $page_access_token = $page['access_token'];
+                try{
+                    $page_id = $page['id'];
+                    $name = $page['name'];
+                    $page_access_token = $page['access_token'];
 
-                // Create a new PageAccess record
-                PageAccessToken::create([
-                    "account_id"=>$id,
-                    "page_id"=>$page_id,
-                    "page_name" => $name,
-                    "page_access_token" => $page_access_token,
-                    "user_id"=>$user_id,
-                ]);
+                    // Create a new PageAccess record
+                    PageAccessToken::create([
+                        "account_id"=>$id,
+                        "page_id"=>$page_id,
+                        "page_name" => $name,
+                        "page_access_token" => $page_access_token,
+                        "user_id"=>$user_id,
+                    ]);
+                }catch (\Exception $e) {
+                    $error[]="failed";
+                }
             }
             return response()->json(['message' => 'PageAccess records created successfully']);
         } else {

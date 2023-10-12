@@ -35,22 +35,26 @@ class PostCouponController extends Controller
         $j = 0;
         $responses=[];
         for ($i = 0; $i < $count; $i++) {
-            // Check if $j exceeds the count of access tokens and reset it
-            if ($j >= $count_accessTokens) {
-                $j = 0;
+            try{
+                // Check if $j exceeds the count of access tokens and reset it
+                if ($j >= $count_accessTokens) {
+                    $j = 0;
+                }
+                $access_token = $accessTokens[$j];
+                $group_id = $group_ids[$i];
+                $response = Http::post("https://graph.facebook.com/v18.0/$group_id/photos", [
+                    'message' => $message,
+                    'url' => $image,
+                    'access_token' => $access_token, // Use the correct access token
+                ]);
+                if (isset($response['post_id'])) {
+                    $responses[] = $response['post_id'];
+                }
+                $j++;
+                sleep($delay);
+            }catch (\Exception $e) {
+                $error[]=$group_id;
             }
-            $access_token = $accessTokens[$j];
-            $group_id = $group_ids[$i];
-            $response = Http::post("https://graph.facebook.com/v18.0/$group_id/photos", [
-                'message' => $message,
-                'url' => $image,
-                'access_token' => $access_token, // Use the correct access token
-            ]);
-            if (isset($response['post_id'])) {
-                $responses[] = $response['post_id'];
-            }
-            $j++;
-            sleep($delay);
         }
         return $responses;
         //return response()->json(['message' => 'Post created successfully']);

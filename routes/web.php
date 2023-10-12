@@ -45,9 +45,12 @@ Route::group(['namespace'=>'User','prefix'=>'user','middleware'=> ['auth:web', '
     Route::get('page-post-coupon',[PostPageCouponController::class,'index'])->name('page_post_it_self');
     Route::post('page-post-coupon',[PostPageCouponController::class,'post'])->name('page_post_coupon_it_self');
 
-    ///
+    ///share-post on group
     Route::get('share-post',[SharedPostController::class,'index'])->name('shared_post');
     Route::post('/share-post', [SharedPostController::class,'sharePost'])->name('share_post');
+    ///share-post on page
+    Route::get('share-page',[SharedPostController::class,'share_post_on_page'])->name('share_post_on_page');
+    Route::post('/share-page', [SharedPostController::class,'sharePostPage'])->name('sharePostPage');
     ///
 
     Route::get('scrap',[ScrapController::class,'scrap'])->name('scrap');

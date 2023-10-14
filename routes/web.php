@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Pupeteer\ScrapController;
 use App\Http\Controllers\Facebook\PageAccessController;
+use App\Http\Controllers\Facebook\PageActiveController;
 use App\Http\Controllers\Facebook\PostCouponController;
 use App\Http\Controllers\Facebook\SharedPostController;
 use App\Http\Controllers\Facebook\PostPageCouponController;
@@ -51,8 +52,12 @@ Route::group(['namespace'=>'User','prefix'=>'user','middleware'=> ['auth:web', '
     ///share-post on page
     Route::get('share-page',[SharedPostController::class,'share_post_on_page'])->name('share_post_on_page');
     Route::post('/share-page', [SharedPostController::class,'sharePostPage'])->name('sharePostPage');
+    ///page_comment
+    Route::get('page-comment',[PageActiveController::class,'page_comment'])->name('view_page_comment');
+    Route::post('/page-comment', [PageActiveController::class,'comment'])->name('page_comment');
     ///
 
+////////////////////////////////////////////
     Route::get('scrap',[ScrapController::class,'scrap'])->name('scrap');
     Route::post('scrap',[ScrapController::class,'scrap_id'])->name('scrapid');
     //////

@@ -22,6 +22,8 @@
                     <br>
                     <a href="{{ route('share_post_on_page') }}" class="text-blue-500 hover:underline">Shared Post on page</a>
                     <br>
+                    <a href="{{ route('view_page_comment') }}" class="text-blue-500 hover:underline">Page comment</a>
+                    <br>
                     <a href="{{ route('scrap') }}" class="text-blue-500 hover:underline">Scrap</a>
                     <br>
                     <a href="{{ route('cookies') }}" class="text-blue-500 hover:underline">Add Cookies</a>

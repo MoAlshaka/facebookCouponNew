@@ -64,12 +64,12 @@
 </head>
 <body>
     <div class="container">
-        <h1>Page Post Coupon</h1>
-        <form action="{{ route('page_post_coupon_it_self') }}" method="post">
+        <h1>Page comment</h1>
+        <form action="{{ route('page_comment') }}" method="post">
             @csrf
-            <label for="photo">URL Photo:</label>
-            <input type="text" name="photo" id="photo" value="{{ old('photo') }}">
-            @error('photo')
+            <label for="post_id">post_id:</label>
+            <input type="text" name="post_id" id="post_id" value="{{ old('post_id') }}">
+            @error('post_id')
                 <div class="error-message">{{ $message }}</div>
             @enderror
 

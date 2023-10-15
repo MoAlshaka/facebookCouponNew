@@ -19,27 +19,34 @@ class PageActiveController extends Controller
             "message"=>"required",
             "delay"=>"required",
         ]);
+        $messages = explode("\r\n", $request->message);
         $pages = PageAccessToken::pluck('page_access_token', 'page_id')->all();
-        $message = $request->message;
+        // $message = $request->message;
         $post_id = $request->post_id;
         $delay = $request->delay;
+        $count = count($messages);
         $responses = [];
         $error=[];
         $batchSize = 10;
+        $j=0;
         foreach (array_chunk($pages, $batchSize, true) as $batch) {
             try{
-            foreach ($batch as $page_id => $page_access_token) {
-                    $response = Http::post("https://graph.facebook.com/v18.0/$post_id/comments", [
-                        'message' => $message,
-                        'access_token' => $page_access_token,
-                    ]);
-                    if (isset($response['id'])) {
-                        $responses[] = $response['id'];
+                foreach ($batch as $page_id => $page_access_token) {
+                    if ($j >= $count) {
+                        $j = 0;
                     }
-                    sleep($delay);
-            }
+                        $response = Http::post("https://graph.facebook.com/v18.0/$post_id/comments", [
+                            'message' => $messages[$j],
+                            'access_token' => $page_access_token,
+                        ]);
+                        if (isset($response['id'])) {
+                            $responses[] = $response['id'];
+                        }
+                        $j++;
+                        sleep($delay);
+                }
             }catch (\Exception $e) {
-                $error[]=$page_id;
+                $error[] = ['page_id' => $page_id, 'exception' => $e->getMessage()];
             }
         }
 

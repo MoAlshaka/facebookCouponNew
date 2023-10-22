@@ -56,6 +56,10 @@ Route::group(['namespace'=>'User','prefix'=>'user','middleware'=> ['auth:web', '
     Route::get('page-comment',[PageActiveController::class,'page_comment'])->name('view_page_comment');
     Route::post('/page-comment', [PageActiveController::class,'comment'])->name('page_comment');
     ///
+        ///post like
+        Route::get('post-like',[PageActiveController::class,'post_like'])->name('view_post_like');
+        Route::post('/post_like', [PageActiveController::class,'like'])->name('post_like');
+        ///
 
 ////////////////////////////////////////////
     Route::get('scrap',[ScrapController::class,'scrap'])->name('scrap');

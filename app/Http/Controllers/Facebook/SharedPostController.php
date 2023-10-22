@@ -58,7 +58,7 @@ class SharedPostController extends Controller
                 $error[]=$group_id;
             }
         }
-        return $responses;
+        return ['responses' => $response, 'errors' => $error];
     }
 
     public function sharePostPage(Request $request) {

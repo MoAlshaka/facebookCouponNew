@@ -11,7 +11,7 @@
         }
 
         .container {
-            max-width: 400px;
+            max-width: 100wh;
             margin: 0 auto;
             padding: 20px;
             background-color: #fff;
@@ -35,7 +35,7 @@
 
         input[type="text"],
         textarea {
-            width: 100%;
+            width: 90%;
             padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #ccc;
@@ -64,18 +64,12 @@
 </head>
 <body>
     <div class="container">
-        <h1>Page comment</h1>
-        <form action="{{ route('page_comment') }}" method="post">
+        <h1>Post Like</h1>
+        <form action="{{ route('post_like') }}" method="post">
             @csrf
             <label for="post_id">post_id:</label>
-            <textarea name="post_id" id="post_id" cols="30" rows="10">{{ old('post_id') }}</textarea>
+            <textarea name="post_id" id="post_id" cols="20" rows="30">{{ old('post_id') }}</textarea>
             @error('post_id')
-                <div class="error-message">{{ $message }}</div>
-            @enderror
-
-            <label for="message">Message:</label>
-            <textarea name="message" id="message" cols="30" rows="10">{{ old('message') }}</textarea>
-            @error('message')
                 <div class="error-message">{{ $message }}</div>
             @enderror
 
@@ -84,7 +78,7 @@
             @error('delay')
                 <div class="error-message">{{ $message }}</div>
             @enderror
-
+            <br/>
             <input type="submit" value="Post">
         </form>
     </div>

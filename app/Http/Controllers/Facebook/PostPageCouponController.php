@@ -21,7 +21,7 @@ class PostPageCouponController extends Controller
             "delay"=>"required",
             "photo"=>"required|url",
         ]);
-        $pages = PageAccessToken::pluck('page_access_token', 'page_id')->all();
+        $pages = PageAccessToken::where('user_id', auth()->user()->id)->pluck('page_access_token', 'page_id')->all();
         $message = $request->message;
         $image = $request->photo;
         $delay = $request->delay;

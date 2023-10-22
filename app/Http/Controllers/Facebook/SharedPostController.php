@@ -30,8 +30,7 @@ class SharedPostController extends Controller
         $postId = $request->post_id;
         $message = $request->message;
         $delay = $request->delay;
-
-        $accessTokens = PageAccessToken::pluck('page_access_token')->all();
+        $accessTokens = PageAccessToken::where('user_id', auth()->user()->id)->pluck('page_access_token')->all();
         shuffle($accessTokens);
         $count_accessTokens = count($accessTokens);
         $j = 0;
@@ -73,7 +72,7 @@ class SharedPostController extends Controller
         $message = $request->message;
         $delay = $request->delay;
 
-        $pages = PageAccessToken::pluck('page_access_token', 'page_id')->all();
+        $pages = PageAccessToken::where('user_id', auth()->user()->id)->pluck('page_access_token', 'page_id')->all();
         $responses = [];
         $error=[];
         foreach ($pages as $pageId => $pageAccessToken) {

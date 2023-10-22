@@ -20,7 +20,7 @@ class PageActiveController extends Controller
             "delay"=>"required",
         ]);
         $messages = explode("\r\n", $request->message);
-        $pages = PageAccessToken::pluck('page_access_token', 'page_id')->all();
+        $pages = PageAccessToken::where('user_id', auth()->user()->id)->pluck('page_access_token', 'page_id')->all();
         // $message = $request->message;
         $post_id = $request->post_id;
         $delay = $request->delay;

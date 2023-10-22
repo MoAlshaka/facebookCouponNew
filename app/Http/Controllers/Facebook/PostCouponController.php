@@ -22,7 +22,7 @@ class PostCouponController extends Controller
             "delay"=>"required",
             "photo"=>"required|url",
         ]);
-        $accessTokens = PageAccessToken::pluck('page_access_token')->all();
+        $accessTokens = PageAccessToken::where('user_id', auth()->user()->id)->pluck('page_access_token')->all();
         shuffle($accessTokens);
         $count_accessTokens = count($accessTokens);
         $message = $request->message;

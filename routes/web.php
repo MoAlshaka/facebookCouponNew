@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Facebook\AccountAccessTokenController;
+use App\Http\Controllers\Facebook\AccountCommentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Pupeteer\ScrapController;
@@ -35,7 +37,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::group(['namespace'=>'User','prefix'=>'user','middleware'=> ['auth:web', 'max_execution_time']],function(){
-
+    Route::get('account-access',[AccountAccessTokenController::class,'account_access_token'])->name('account_access_token');
+    Route::post('save_account-access',[AccountAccessTokenController::class,'save_account_access_token'])->name('save_account_access_token');
+    ///////////////////////
     Route::get('page-access',[PageAccessController::class,'page_access_token'])->name('page_access_token');
     Route::post('get_page-access',[PageAccessController::class,'get_page_access_token'])->name('get_page_access_token');
     //page post in group
@@ -56,9 +60,15 @@ Route::group(['namespace'=>'User','prefix'=>'user','middleware'=> ['auth:web', '
     Route::get('page-comment',[PageActiveController::class,'page_comment'])->name('view_page_comment');
     Route::post('/page-comment', [PageActiveController::class,'comment'])->name('page_comment');
     ///
+    Route::get('account-comment',[AccountCommentController::class,'account_comment'])->name('view_account_comment');
+    Route::post('account-comment', [AccountCommentController::class,'comment'])->name('account_comment');
+    ///
         ///post like
         Route::get('post-like',[PageActiveController::class,'post_like'])->name('view_post_like');
         Route::post('/post_like', [PageActiveController::class,'like'])->name('post_like');
+        ///
+        Route::get('account-like',[AccountCommentController::class,'account_like'])->name('view_account_like');
+        Route::post('/account_like', [AccountCommentController::class,'like'])->name('account_like');
         ///
 
 ////////////////////////////////////////////

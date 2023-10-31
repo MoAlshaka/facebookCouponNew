@@ -14,6 +14,8 @@
                 <div class="p-6 text-gray-900">
                     <a href="{{ route('page_access_token') }}" class="text-blue-500 hover:underline">Get Page Access</a>
                     <br>
+                    <a href="{{ route('account_access_token') }}" class="text-blue-500 hover:underline">Save Account Access</a>
+                    <br>
                     <a href="{{ route('page_post') }}" class="text-blue-500 hover:underline">Post Coupon Group</a>
                     <br>
                     <a href="{{ route('page_post_it_self') }}" class="text-blue-500 hover:underline">Page Post Coupon</a>
@@ -24,7 +26,11 @@
                     <br>
                     <a href="{{ route('view_page_comment') }}" class="text-blue-500 hover:underline">Page comment</a>
                     <br>
+                    <a href="{{ route('view_account_comment') }}" class="text-blue-500 hover:underline">account comment</a>
+                    <br>
                     <a href="{{ route('view_post_like') }}" class="text-blue-500 hover:underline">Post like</a>
+                    <br>
+                    <a href="{{ route('view_account_like') }}" class="text-blue-500 hover:underline">account like</a>
                     <br>
                     <a href="{{ route('scrap') }}" class="text-blue-500 hover:underline">Scrap</a>
                     <br>

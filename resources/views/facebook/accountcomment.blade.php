@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Share Post</title>
+    <title>Account comment</title>
     <style>
-        /* Style the form container */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
         .container {
             max-width: 90%;
             margin: 0 auto;
@@ -13,14 +19,20 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
 
-        /* Style labels */
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
         label {
             font-weight: bold;
             display: block;
             margin-bottom: 5px;
         }
 
-        /* Style input and textarea fields */
         input[type="text"],
         textarea {
             width: 100%;
@@ -30,13 +42,6 @@
             border-radius: 3px;
         }
 
-        /* Style error messages */
-        .error-message {
-            color: red;
-            margin-top: 5px;
-        }
-
-        /* Style submit button */
         input[type="submit"] {
             background-color: #007bff;
             color: #fff;
@@ -49,23 +54,22 @@
         input[type="submit"]:hover {
             background-color: #0056b3;
         }
-
+        .error-message {
+            color: #f44336;
+            font-size: 14px;
+            margin-top: 5px;
+        }
     </style>
+
 </head>
 <body>
     <div class="container">
-        <h1>Share Post</h1>
-        <form action="{{ route('share_post') }}" method="post">
+        <h1>Page comment</h1>
+        <form action="{{ route('account_comment') }}" method="post">
             @csrf
-            <label for="post_id">Post Id</label>
-            <input type="text" name="post_id" id="post_id" placeholder="Enter post_id" value="{{ old('post_id') }}">
+            <label for="post_id">post_id:</label>
+            <textarea name="post_id" id="post_id" cols="30" rows="10">{{ old('post_id') }}</textarea>
             @error('post_id')
-                <div class="error-message">{{ $message }}</div>
-            @enderror
-
-            <label for="group_id">Group IDs:</label>
-            <textarea name="group_id" id="group_id" cols="30" rows="10">{{ old('group_id') }}</textarea>
-            @error('group_id')
                 <div class="error-message">{{ $message }}</div>
             @enderror
 
@@ -81,7 +85,7 @@
                 <div class="error-message">{{ $message }}</div>
             @enderror
 
-            <input type="submit" value="Share Post">
+            <input type="submit" value="Post">
         </form>
     </div>
 </body>
